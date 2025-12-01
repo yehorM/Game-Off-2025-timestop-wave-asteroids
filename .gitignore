@@ -1,0 +1,11 @@
+# Godot 4
+.import/
+.godot/
+
+# Exported builds
+export/
+export.zip
+
+# OS cruft
+Thumbs.db
+.DS_Store

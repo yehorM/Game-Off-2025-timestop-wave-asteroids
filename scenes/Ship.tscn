@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=3 uid="uid://ckf8fa0yog2ok"]
+
+[ext_resource type="Script" uid="uid://c73eelxeaaiar" path="res://scripts/Ship.gd" id="1_ai6ab"]
+[ext_resource type="Texture2D" uid="uid://mxx1kto5qj01" path="res://images/ship.png" id="2_gjfe0"]
+[ext_resource type="Shader" uid="uid://bvwq8wphhlygo" path="res://shaders/glow_outline.gdshader" id="2_qq457"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gjfe0"]
+shader = ExtResource("2_qq457")
+shader_parameter/outline_width = 2.0
+shader_parameter/outline_color = Vector4(1, 0.9, 0.3, 1)
+shader_parameter/emission_strength = 0.6
+
+[sub_resource type="Gradient" id="Gradient_fos0i"]
+offsets = PackedFloat32Array(0, 0.158019, 0.299528, 0.966019, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.918658, 0.348821, 0.0944905, 0.905512, 0.91017, 0.280872, 2.52074e-06, 1, 0.746583, 1.50649e-05, 7.70092e-06, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3dxm6"]
+gradient = SubResource("Gradient_fos0i")
+
+[sub_resource type="CurveTexture" id="CurveTexture_fos0i"]
+
+[sub_resource type="Curve" id="Curve_fos0i"]
+_limits = [0.0, 2.5, 0.0, 1.0]
+_data = [Vector2(0, 2.14706), 0.0, -7.68347, 0, 1, Vector2(0.149289, 1), -7.68347, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3dxm6"]
+curve = SubResource("Curve_fos0i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(6, 3, 0)
+direction = Vector3(-1, 0, 0)
+spread = 5.0
+initial_velocity_min = 220.0
+initial_velocity_max = 380.0
+gravity = Vector3(0, 0, 0)
+damping_min = 160.0
+damping_max = 210.0
+scale_min = 1.5
+scale_max = 2.5
+scale_curve = SubResource("CurveTexture_3dxm6")
+color_ramp = SubResource("GradientTexture1D_3dxm6")
+emission_curve = SubResource("CurveTexture_fos0i")
+
+[node name="Ship" type="Node2D"]
+script = ExtResource("1_ai6ab")
+
+[node name="Body" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_gjfe0")
+texture = ExtResource("2_gjfe0")
+
+[node name="Exhaust" type="Marker2D" parent="."]
+position = Vector2(-35, -3)
+
+[node name="Thruster" type="GPUParticles2D" parent="Exhaust"]
+z_index = -1
+position = Vector2(-2, 3)
+amount = 100
+lifetime = 0.12
+preprocess = 0.1
+trail_lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_fos0i")
