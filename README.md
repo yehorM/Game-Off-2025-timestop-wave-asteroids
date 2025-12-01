@@ -1,1 +1,3 @@
-# Game-Off-2025-timestop-wave-asteroids
+# Game Off 2025 submission
+
+Time-stop Wave Asteroids
